@@ -48,4 +48,11 @@ const LinkContainer = styled.div`
   margin-bottom: 52px;
 `;
 
-export { Content, Description, Link, LinkContainer, Title, View };
+const Error = styled.p`
+  text-align: center;
+  font-size: 14px;
+  margin-top: 8px;
+  color: #e00022;
+`;
+
+export { Content, Description, Error, Link, LinkContainer, Title, View };
