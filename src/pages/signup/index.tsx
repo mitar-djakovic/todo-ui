@@ -65,7 +65,7 @@ const Signup = () => {
             placeholder="Password"
           />
           <LinkContainer>
-            <Link>Do have an account? Sign in.</Link>
+            <Link href="/login">Do have an account? Sign in.</Link>
           </LinkContainer>
           <Button onClick={handleSubmit(handleSignup)} type="submit">
             Sign up

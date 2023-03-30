@@ -26,6 +26,7 @@ const Link = styled.a`
   line-height: normal;
   letter-spacing: normal;
   text-decoration: underline;
+  color: #1f2a4b;
 `;
 
 const Title = styled.h1`

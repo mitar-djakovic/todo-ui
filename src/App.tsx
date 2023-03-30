@@ -1,9 +1,10 @@
 import React from 'react';
+import { RouterProvider } from 'react-router-dom';
 
-import Signup from './pages/signup';
+import router from './pages/routes';
 
 function App() {
-  return <Signup />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
