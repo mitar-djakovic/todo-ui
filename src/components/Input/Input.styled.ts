@@ -17,4 +17,10 @@ const InputStyled = styled.input`
   }
 `;
 
-export { InputStyled };
+const Error = styled.p`
+  color: #e00022;
+  font-size: 14px;
+  margin-top: 4px;
+`;
+
+export { Error, InputStyled };
