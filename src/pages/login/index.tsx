@@ -18,9 +18,21 @@ interface LoginValues {
   password: string;
 }
 
+import { useSelector } from 'react-redux';
+
+import { logIn } from '../../actions';
+import { useAppDispatch } from '../../hooks/hooks';
+import {
+  selectErrorMessage,
+  selectIsLoading,
+  selectSuccessMessage,
+} from '../../stores/global';
+import { Message } from '../signup/Signup.styled';
+
 import { loginValidationSchema } from './validation';
 
 const Login = () => {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -33,6 +45,10 @@ const Login = () => {
       password: '',
     },
   });
+
+  const isLoading = useSelector(selectIsLoading);
+  const errorMessage = useSelector(selectErrorMessage);
+  const successMessage = useSelector(selectSuccessMessage);
   const getCommonProps = (name: keyof LoginValues) => {
     return {
       register: register(name),
@@ -41,7 +57,9 @@ const Login = () => {
   };
 
   const handleLogin: SubmitHandler<LoginValues> = (values) => {
-    console.log('values', values);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    dispatch(logIn(values));
   };
 
   return (
@@ -64,9 +82,18 @@ const Login = () => {
           <LinkContainer>
             <Link href="/signup">Don’t have an account? Sign up.</Link>
           </LinkContainer>
-          <Button onClick={handleSubmit(handleLogin)} type="submit">
+          <Button
+            disabled={isLoading}
+            onClick={handleSubmit(handleLogin)}
+            type="submit"
+          >
             Log in
           </Button>
+          {(errorMessage || successMessage) && (
+            <Message error={!!errorMessage}>
+              {errorMessage || successMessage}
+            </Message>
+          )}
         </form>
       </Content>
     </View>

@@ -48,4 +48,11 @@ const LinkContainer = styled.div`
   margin-bottom: 52px;
 `;
 
-export { Content, Description, Link, LinkContainer, Title, View };
+const Message = styled.p<{ error: boolean }>`
+  text-align: center;
+  font-size: 14px;
+  margin-top: 8px;
+  color: ${(props) => (props.error ? '#e00022' : '#0BC163')};
+`;
+
+export { Content, Description, Link, LinkContainer, Message, Title, View };

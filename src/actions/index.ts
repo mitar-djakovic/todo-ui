@@ -16,3 +16,17 @@ export const singUp = createAsyncThunk('signUp', async (values) => {
     }
   }
 });
+
+export const logIn = createAsyncThunk('logIn', async (values) => {
+  try {
+    const { data } = await axios.post('/login', values);
+
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw error.response?.data;
+    } else {
+      throw 'Something went wrong, please try again later';
+    }
+  }
+});

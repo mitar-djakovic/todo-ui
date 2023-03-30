@@ -6,14 +6,18 @@ import { singUp } from '../../actions';
 import { Logo } from '../../assets';
 import { Button, Input } from '../../components';
 import { useAppDispatch } from '../../hooks/hooks';
-import { selectErrorMessage, selectIsLoading } from '../../stores/global';
+import {
+  selectErrorMessage,
+  selectIsLoading,
+  selectSuccessMessage,
+} from '../../stores/global';
 
 import {
   Content,
   Description,
-  Error,
   Link,
   LinkContainer,
+  Message,
   Title,
   View,
 } from './Signup.styled';
@@ -43,6 +47,7 @@ const Signup = () => {
 
   const isLoading = useSelector(selectIsLoading);
   const errorMessage = useSelector(selectErrorMessage);
+  const successMessage = useSelector(selectSuccessMessage);
 
   const getCommonProps = (name: keyof SignupValues) => {
     return {
@@ -85,7 +90,11 @@ const Signup = () => {
           >
             {isLoading ? 'Loading...' : 'Sign up'}
           </Button>
-          {errorMessage && <Error>{errorMessage}</Error>}
+          {(errorMessage || successMessage) && (
+            <Message error={!!errorMessage}>
+              {errorMessage || successMessage}
+            </Message>
+          )}
         </form>
       </Content>
     </View>

@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { singUp } from '../actions';
+import { logIn, singUp } from '../actions';
 
 import { RootState } from './index';
 
+interface Account {
+  fullName: string;
+  email: string;
+}
+
 export interface GlobalState {
   isLoading: boolean;
-  account: any;
+  account: Account | null;
   successMessage: string;
   errorMessage: string;
 }
@@ -26,13 +31,29 @@ export const globalSlice = createSlice({
     builder
       .addCase(singUp.pending, (state) => {
         state.isLoading = true;
+        state.successMessage = '';
+        state.errorMessage = '';
       })
       .addCase(singUp.fulfilled, (state, { payload }) => {
-        state.account = payload.data;
         state.successMessage = payload.message;
         state.isLoading = false;
       })
       .addCase(singUp.rejected, (state, { error }) => {
+        state.errorMessage =
+          error.message || 'Something went wrong, please try again later';
+        state.isLoading = false;
+      })
+      .addCase(logIn.pending, (state) => {
+        console.log('pending', state);
+        state.isLoading = true;
+        state.errorMessage = '';
+      })
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        console.log('fullfiled', payload);
+        state.account = payload.data;
+        state.isLoading = false;
+      })
+      .addCase(logIn.rejected, (state, { error }) => {
         state.errorMessage =
           error.message || 'Something went wrong, please try again later';
         state.isLoading = false;
@@ -43,4 +64,6 @@ export const globalSlice = createSlice({
 export const selectIsLoading = (state: RootState) => state.global.isLoading;
 export const selectErrorMessage = (state: RootState) =>
   state.global.errorMessage;
+export const selectSuccessMessage = (state: RootState) =>
+  state.global.successMessage;
 export default globalSlice.reducer;
