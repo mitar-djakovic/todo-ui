@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Logo } from '../../assets';
-import { Button, Input } from '../../components';
+import { Button, Input, Page } from '../../components';
 
 import {
   Content,
@@ -63,40 +63,42 @@ const Login = () => {
   };
 
   return (
-    <View>
-      <Content>
-        <Logo />
-        <Title>Welcome back!</Title>
-        <Description>Log in to continue.</Description>
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <Input
-            {...getCommonProps('email')}
-            type="email"
-            placeholder="Email"
-          />
-          <Input
-            {...getCommonProps('password')}
-            type="password"
-            placeholder="Password"
-          />
-          <LinkContainer>
-            <Link href="/signup">Don’t have an account? Sign up.</Link>
-          </LinkContainer>
-          <Button
-            disabled={isLoading}
-            onClick={handleSubmit(handleLogin)}
-            type="submit"
-          >
-            Log in
-          </Button>
-          {(errorMessage || successMessage) && (
-            <Message error={!!errorMessage}>
-              {errorMessage || successMessage}
-            </Message>
-          )}
-        </form>
-      </Content>
-    </View>
+    <Page>
+      <View>
+        <Content>
+          <Logo />
+          <Title>Welcome back!</Title>
+          <Description>Log in to continue.</Description>
+          <form onSubmit={handleSubmit(handleLogin)}>
+            <Input
+              {...getCommonProps('email')}
+              type="email"
+              placeholder="Email"
+            />
+            <Input
+              {...getCommonProps('password')}
+              type="password"
+              placeholder="Password"
+            />
+            <LinkContainer>
+              <Link href="/signup">Don’t have an account? Sign up.</Link>
+            </LinkContainer>
+            <Button
+              disabled={isLoading}
+              onClick={handleSubmit(handleLogin)}
+              type="submit"
+            >
+              Log in
+            </Button>
+            {(errorMessage || successMessage) && (
+              <Message error={!!errorMessage}>
+                {errorMessage || successMessage}
+              </Message>
+            )}
+          </form>
+        </Content>
+      </View>
+    </Page>
   );
 };
 

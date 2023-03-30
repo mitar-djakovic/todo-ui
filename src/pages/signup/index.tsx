@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { singUp } from '../../actions';
 import { Logo } from '../../assets';
-import { Button, Input } from '../../components';
+import { Button, Input, Page } from '../../components';
 import { useAppDispatch } from '../../hooks/hooks';
 import {
   selectErrorMessage,
@@ -63,41 +63,43 @@ const Signup = () => {
   };
 
   return (
-    <View>
-      <Content>
-        <Logo />
-        <Title>Welcome!</Title>
-        <Description>Sign up to start using Simpledo today.</Description>
-        <form onSubmit={handleSubmit(handleSignup)}>
-          <Input {...getCommonProps('fullName')} placeholder="Full name" />
-          <Input
-            {...getCommonProps('email')}
-            type="email"
-            placeholder="Email"
-          />
-          <Input
-            {...getCommonProps('password')}
-            type="password"
-            placeholder="Password"
-          />
-          <LinkContainer>
-            <Link href="/login">Do have an account? Sign in.</Link>
-          </LinkContainer>
-          <Button
-            disabled={isLoading}
-            onClick={handleSubmit(handleSignup)}
-            type="submit"
-          >
-            {isLoading ? 'Loading...' : 'Sign up'}
-          </Button>
-          {(errorMessage || successMessage) && (
-            <Message error={!!errorMessage}>
-              {errorMessage || successMessage}
-            </Message>
-          )}
-        </form>
-      </Content>
-    </View>
+    <Page>
+      <View>
+        <Content>
+          <Logo />
+          <Title>Welcome!</Title>
+          <Description>Sign up to start using Simpledo today.</Description>
+          <form onSubmit={handleSubmit(handleSignup)}>
+            <Input {...getCommonProps('fullName')} placeholder="Full name" />
+            <Input
+              {...getCommonProps('email')}
+              type="email"
+              placeholder="Email"
+            />
+            <Input
+              {...getCommonProps('password')}
+              type="password"
+              placeholder="Password"
+            />
+            <LinkContainer>
+              <Link href="/login">Do have an account? Sign in.</Link>
+            </LinkContainer>
+            <Button
+              disabled={isLoading}
+              onClick={handleSubmit(handleSignup)}
+              type="submit"
+            >
+              {isLoading ? 'Loading...' : 'Sign up'}
+            </Button>
+            {(errorMessage || successMessage) && (
+              <Message error={!!errorMessage}>
+                {errorMessage || successMessage}
+              </Message>
+            )}
+          </form>
+        </Content>
+      </View>
+    </Page>
   );
 };
 

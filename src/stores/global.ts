@@ -44,12 +44,10 @@ export const globalSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(logIn.pending, (state) => {
-        console.log('pending', state);
         state.isLoading = true;
         state.errorMessage = '';
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
-        console.log('fullfiled', payload);
         state.account = payload.data;
         state.isLoading = false;
       })
@@ -66,4 +64,5 @@ export const selectErrorMessage = (state: RootState) =>
   state.global.errorMessage;
 export const selectSuccessMessage = (state: RootState) =>
   state.global.successMessage;
+export const selectAccount = (state: RootState) => state.global.account;
 export default globalSlice.reducer;
