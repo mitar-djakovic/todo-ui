@@ -42,7 +42,11 @@ const initialState: GlobalState = {
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.account = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(singUp.pending, (state) => {
@@ -139,5 +143,7 @@ export const selectSuccessMessage = (state: RootState) =>
   state.global.successMessage;
 export const selectAccount = (state: RootState) => state.global.account;
 export const selectTodoList = (state: RootState) => state.global.todos;
+
+export const { logout } = globalSlice.actions;
 
 export default globalSlice.reducer;

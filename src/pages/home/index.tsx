@@ -8,12 +8,13 @@ import { createTodo, deleteTodo, getTodos, setTodoStatus } from '../../actions';
 import { Logo } from '../../assets';
 import { Checkbox, Input, Page } from '../../components';
 import { useAppDispatch } from '../../hooks/hooks';
-import { selectIsLoading, selectTodoList } from '../../stores/global';
+import { logout, selectIsLoading, selectTodoList } from '../../stores/global';
 
 import {
   Content,
   Filter,
   Filters,
+  Logout,
   Title,
   TodoContainer,
   View,
@@ -26,7 +27,7 @@ interface TodoValues {
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const { listId } = useParams();
   const [searchParams] = useSearchParams();
 
@@ -82,14 +83,21 @@ const Home = () => {
 
   const handleQueryParams = (param: string) => {
     if (param === '/') {
-      navigation(`/${listId}`);
+      navigate(`/${listId}`);
     } else {
-      navigation(`/${listId}?filter=${param}`);
+      navigate(`/${listId}?filter=${param}`);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accountId');
+    dispatch(logout());
+    navigate('/login');
   };
   return (
     <Page isProtected>
       <View>
+        <Logout onClick={handleLogout}>Logout</Logout>
         <Content>
           <Logo />
           <Title>Todo list</Title>

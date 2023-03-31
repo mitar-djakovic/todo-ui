@@ -7,6 +7,7 @@ const View = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 const Content = styled.div`
@@ -72,12 +73,22 @@ const Filter = styled.a<{ active: boolean }>`
   margin-right: 10px;
 `;
 
+const Logout = styled.p`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 14px;
+  color: #1f2a4b;
+  cursor: pointer;
+`;
+
 export {
   Content,
   Filter,
   Filters,
   Link,
   LinkContainer,
+  Logout,
   Message,
   Title,
   TodoContainer,
