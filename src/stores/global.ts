@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createTodo,
   deleteTodo,
+  getAccount,
   getTodos,
   logIn,
   setTodoStatus,
@@ -12,14 +13,14 @@ import {
 import { RootState } from './index';
 
 interface Account {
-  fullName: string;
-  email: string;
+  accountId: string;
   listId: string;
 }
 
 type Todo = {
   todo: string;
   completed: boolean;
+  todoId: string;
 };
 
 export interface GlobalState {
@@ -63,6 +64,7 @@ export const globalSlice = createSlice({
         state.errorMessage = '';
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
+        localStorage.setItem('accountId', payload.data.accountId);
         state.account = payload.data;
         state.isLoading = false;
       })
@@ -81,22 +83,21 @@ export const globalSlice = createSlice({
       .addCase(getTodos.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(createTodo.pending, (state) => {
-        state.isLoading = true;
+      .addCase(createTodo.pending, () => {
+        // Implement something
       })
       .addCase(createTodo.fulfilled, (state, { payload }) => {
         state.todos = [...state.todos, payload.data];
-        state.isLoading = false;
       })
-      .addCase(createTodo.rejected, (state) => {
-        state.isLoading = false;
+      .addCase(createTodo.rejected, () => {
+        // Implement something
       })
       .addCase(setTodoStatus.pending, () => {
         // Implement some loading animation
       })
       .addCase(setTodoStatus.fulfilled, (state, { payload }) => {
-        state.todos = state.todos.map((todo, index) =>
-          index === payload.data.position
+        state.todos = state.todos.map((todo) =>
+          todo.todoId === payload.data.todoId
             ? {
                 ...todo,
                 completed: payload.data.completed,
@@ -112,11 +113,21 @@ export const globalSlice = createSlice({
       })
       .addCase(deleteTodo.fulfilled, (state, { payload }) => {
         state.todos = state.todos.filter(
-          (todo, index) => index !== Number(payload.data.position)
+          (todo) => todo.todoId !== payload.data.todoId
         );
       })
       .addCase(deleteTodo.rejected, () => {
         // Implement some errorMessage
+      })
+      .addCase(getAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAccount.fulfilled, (state, { payload }) => {
+        state.account = payload.data;
+        state.isLoading = false;
+      })
+      .addCase(getAccount.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

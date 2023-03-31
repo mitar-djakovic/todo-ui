@@ -8,7 +8,7 @@ import { createTodo, deleteTodo, getTodos, setTodoStatus } from '../../actions';
 import { Logo } from '../../assets';
 import { Checkbox, Input, Page } from '../../components';
 import { useAppDispatch } from '../../hooks/hooks';
-import { selectTodoList } from '../../stores/global';
+import { selectIsLoading, selectTodoList } from '../../stores/global';
 
 import { Content, Title, TodoContainer, View } from './Home.styled';
 import { todoValidationSchema } from './validation';
@@ -21,6 +21,8 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const { listId } = useParams();
   const todoList = useSelector(selectTodoList);
+  const isLoading = useSelector(selectIsLoading);
+
   const {
     register,
     handleSubmit,
@@ -61,27 +63,31 @@ const Home = () => {
             <Input placeholder="Add a new todo" {...getCommonProps('todo')} />
           </form>
           <TodoContainer>
-            {todoList.map((list, index) => (
-              <Checkbox
-                key={`box-${index}`}
-                label={list.todo}
-                checked={list.completed}
-                onChange={(e: any) =>
-                  dispatch(
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    setTodoStatus({
-                      checked: e.target.checked,
-                      position: index,
-                      listId,
-                    })
-                  )
-                }
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                onClick={() => dispatch(deleteTodo({ listId, index }))}
-              />
-            ))}
+            {isLoading
+              ? 'Fetching todos...'
+              : todoList.map((list, index) => (
+                  <Checkbox
+                    key={list.todoId}
+                    label={list.todo}
+                    checked={list.completed}
+                    onChange={(e) =>
+                      dispatch(
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        setTodoStatus({
+                          checked: e.target.checked,
+                          todoId: list.todoId,
+                          listId,
+                        })
+                      )
+                    }
+                    onClick={() =>
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      dispatch(deleteTodo({ listId, todoId: list.todoId }))
+                    }
+                  />
+                ))}
           </TodoContainer>
         </Content>
       </View>

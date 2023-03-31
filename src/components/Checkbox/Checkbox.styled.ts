@@ -12,6 +12,7 @@ const CheckboxView = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 14px;
   svg {
     display: none;
     cursor: pointer;
