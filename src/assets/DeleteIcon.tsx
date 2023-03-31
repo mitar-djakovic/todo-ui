@@ -1,5 +1,10 @@
-const DeleteIcon = () => (
+interface DeleteIconProps {
+  onClick: () => void;
+}
+
+const DeleteIcon = ({ onClick }: DeleteIconProps) => (
   <svg
+    onClick={onClick}
     xmlns="http://www.w3.org/2000/svg"
     width="11"
     height="11"

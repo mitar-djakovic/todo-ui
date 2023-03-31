@@ -13,12 +13,13 @@ const Page = ({ children, isProtected }: PageProps) => {
   const account = useSelector(selectAccount);
   const navigate = useNavigate();
 
+  console.log('list', account);
   useEffect(() => {
-    if (!account && isProtected) {
-      navigate('/login');
-    }
+    // if (!account && isProtected) {
+    //   navigate('/login');
+    // }
     if (account) {
-      navigate('/');
+      navigate('/' + account.listId);
     }
     console.log('isProtected', isProtected);
   }, [account, isProtected, navigate]);

@@ -9,16 +9,19 @@ import {
 
 interface CheckboxProps {
   checked: boolean;
+  label: string;
+  onChange: (e: any) => void;
+  onClick: () => void;
 }
 
-const Checkbox = ({ checked }: CheckboxProps) => {
+const Checkbox = ({ checked, label, onChange, onClick }: CheckboxProps) => {
   return (
     <CheckboxView>
       <Content>
-        <CheckboxStyled checked={checked} type="checkbox" />
-        <Label>Some text</Label>
+        <CheckboxStyled onChange={onChange} checked={checked} type="checkbox" />
+        <Label>{label}</Label>
       </Content>
-      <DeleteIcon />
+      <DeleteIcon onClick={onClick} />
     </CheckboxView>
   );
 };
