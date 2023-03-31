@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { createTodo, deleteTodo, getTodos, setTodoStatus } from '../../actions';
@@ -10,7 +10,14 @@ import { Checkbox, Input, Page } from '../../components';
 import { useAppDispatch } from '../../hooks/hooks';
 import { selectIsLoading, selectTodoList } from '../../stores/global';
 
-import { Content, Title, TodoContainer, View } from './Home.styled';
+import {
+  Content,
+  Filter,
+  Filters,
+  Title,
+  TodoContainer,
+  View,
+} from './Home.styled';
 import { todoValidationSchema } from './validation';
 
 interface TodoValues {
@@ -19,7 +26,11 @@ interface TodoValues {
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigate();
   const { listId } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const filterParam = searchParams.get('filter');
   const todoList = useSelector(selectTodoList);
   const isLoading = useSelector(selectIsLoading);
 
@@ -38,8 +49,8 @@ const Home = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    dispatch(getTodos(listId));
-  }, [dispatch, listId]);
+    dispatch(getTodos({ listId, filterParam }));
+  }, [dispatch, filterParam, listId]);
 
   const getCommonProps = (name: keyof TodoValues) => {
     return {
@@ -53,6 +64,29 @@ const Home = () => {
     // @ts-ignore
     dispatch(createTodo({ ...values, listId }));
   };
+
+  const filters = [
+    {
+      label: 'All',
+      param: '/',
+    },
+    {
+      label: 'Completed',
+      param: true,
+    },
+    {
+      label: 'Incompleted',
+      param: false,
+    },
+  ];
+
+  const handleQueryParams = (param: string) => {
+    if (param === '/') {
+      navigation(`/${listId}`);
+    } else {
+      navigation(`/${listId}?filter=${param}`);
+    }
+  };
   return (
     <Page isProtected>
       <View>
@@ -65,7 +99,7 @@ const Home = () => {
           <TodoContainer>
             {isLoading
               ? 'Fetching todos...'
-              : todoList.map((list, index) => (
+              : todoList.map((list) => (
                   <Checkbox
                     key={list.todoId}
                     label={list.todo}
@@ -89,6 +123,18 @@ const Home = () => {
                   />
                 ))}
           </TodoContainer>
+          <Filters>
+            <p>Show</p>{' '}
+            {filters.map((filter) => (
+              <Filter
+                onClick={() => handleQueryParams(String(filter.param))}
+                active
+                key={filter.label}
+              >
+                {filter.label}
+              </Filter>
+            ))}
+          </Filters>
         </Content>
       </View>
     </Page>

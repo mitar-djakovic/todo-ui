@@ -54,4 +54,32 @@ const TodoContainer = styled.div`
   margin-top: 26px;
 `;
 
-export { Content, Link, LinkContainer, Message, Title, TodoContainer, View };
+const Filters = styled.div`
+  display: flex;
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(31, 42, 75, 0.59);
+    margin-right: 17px;
+  }
+`;
+
+const Filter = styled.a<{ active: boolean }>`
+  text-decoration: ${(props) => (props.active ? 'none' : 'underline')};
+  color: ${(props) => (props.active ? '#4a77e5' : '#4a77e5')};
+  font-size: 14px;
+  margin-right: 10px;
+`;
+
+export {
+  Content,
+  Filter,
+  Filters,
+  Link,
+  LinkContainer,
+  Message,
+  Title,
+  TodoContainer,
+  View,
+};

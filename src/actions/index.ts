@@ -43,9 +43,13 @@ export const createTodo = createAsyncThunk('todo/create', async (values) => {
   }
 });
 
-export const getTodos = createAsyncThunk('todo/get', async (value) => {
+export const getTodos = createAsyncThunk('todo/get', async (values) => {
   try {
-    const { data } = await axios.get(`/todos/${value}`);
+    const { data } = await axios.get(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      `/todos/${values.listId}?filter=${values?.filterParam}`
+    );
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
